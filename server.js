@@ -1,5 +1,4 @@
 // ============ DEPENDENCIES =========
-
 //get .env variables
 require('dotenv').config();
 
@@ -16,11 +15,11 @@ const app = express();
 //import mongoose
 const mongoose = require('mongoose');
 
-//middlerware
+//import middlerware
 const cors = require('cors');
 const morgan = require('morgan');
 
-// ============ DATABASE CONNECTION=========
+// ============ DATABASE CONNECTION =========
 //establish connection
 mongoose.connect(MONGODB_URL, {
     useUnifiedTopology: true,
@@ -44,6 +43,11 @@ const AttractionSchema = new mongoose.Schema({
 
 const Attraction = mongoose.model('Attraction', AttractionSchema);
 
+// =========== MIDDLEWARE =========
+app.use(cors());// to pevent cors errors, open access to all origins
+app.use(morgan('dev'));//logging
+app.use(express.json());//parse json bodies
+
 // =========== ROUTES =========
 //test route
 app.get('/', (req, res) => {
@@ -54,6 +58,24 @@ app.get('/', (req, res) => {
 app.get('/attraction', async (req, res) => {
     try{
         res.json(await Attraction.find({}));
+    } catch (error) {
+        res.status(400).json(error);
+    }
+});
+
+//attraction delete route
+app.delete('/attraction/:id', async (req, res) => {
+    try {
+        res.json(await Attraction.findByIdAndRemove(req.params.id));
+    } catch (error) {
+        res.status(400).json(error);
+    }
+});
+
+//attraction update route
+app.put('/attraction/:id', async (req, res) => {
+    try {
+        res.json(await Attraction.findByIdAndUpdate(req.params.id, req.body, { new: true}));
     } catch (error) {
         res.status(400).json(error);
     }
