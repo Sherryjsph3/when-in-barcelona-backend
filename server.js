@@ -1,6 +1,5 @@
-///////////////////////////////
-// DEPENDENCIES
-///////////////////////////////
+// ============ DEPENDENCIES =========
+
 //get .env variables
 require('dotenv').config();
 
@@ -21,9 +20,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const morgan = require('morgan');
 
-///////////////////////////////
-// DATABASE CONNECTION
-///////////////////////////////
+// ============ DATABASE CONNECTION=========
 //establish connection
 mongoose.connect(MONGODB_URL, {
     useUnifiedTopology: true,
@@ -36,9 +33,7 @@ mongoose.connection
     .on('close', () => console.log('You are disconnected from mongoose'))
     .on('error', (error) => console.log(error));
 
-///////////////////////////////
-// MODELS
-///////////////////////////////
+// ============ MODELS =========
 const AttractionSchema = new mongoose.Schema({
     name: String,
     image: String,
@@ -48,8 +43,8 @@ const AttractionSchema = new mongoose.Schema({
 });
 
 const Attraction = mongoose.model('Attraction', AttractionSchema);
-// ROUTES
-///////////////////////////////
+
+// =========== ROUTES =========
 //test route
 app.get('/', (req, res) => {
     res.send('test');
@@ -73,7 +68,5 @@ app.post('/attraction', async (req, res) => {
     }
 });
 
-///////////////////////////////
-// LISTENER
-///////////////////////////////
+// ============ LISTENER =========
 app.listen(PORT, () => console.log(`listening on PORT ${PORT}`));
