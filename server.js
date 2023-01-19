@@ -18,7 +18,7 @@ const mongoose = require('mongoose');
 //import middlerware
 const cors = require('cors');
 const morgan = require('morgan');
-app.use(express.static('public'));
+// app.use(express.static('public'));
 
 // ============ DATABASE CONNECTION =========
 //establish connection
